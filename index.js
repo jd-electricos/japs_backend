@@ -19,7 +19,10 @@ const app = express();
 
 // app.use(cors());
 app.use(cors({
-  origin: ['https://jap.com.co'],
+  origin: [
+    'https://japs.com.co',
+    'https://www.japs.com.co'
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
