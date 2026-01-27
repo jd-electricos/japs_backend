@@ -21,7 +21,9 @@ const app = express();
 app.use(cors({
   origin: [
     'https://japs.com.co',
-    'https://www.japs.com.co'
+    'https://www.japs.com.co',
+    'https://jdelectricos.com.co',
+    'https://www.jdelectricos.com.co'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
