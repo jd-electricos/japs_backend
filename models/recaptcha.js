@@ -2,7 +2,7 @@
 const https = require("https");
 const querystring = require("querystring");
 
-const secretKey = "6LeRIXgqAAAAAJaZzDL-ErbwyNOnbNYUhpuZqhqP"; // Reemplaza con tu clave secreta
+const secretKey = "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"; // Reemplaza con tu clave secreta
 
 const verifyRecaptchaResponse = (recaptchaResponse) => {
   return new Promise((resolve, reject) => {
