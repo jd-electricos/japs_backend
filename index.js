@@ -2,7 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 
 const productRoutes = require('./routes/productRoutes.js');
 const emailRoutes = require('./routes/emailRoutes.js');
@@ -15,7 +15,7 @@ const sequelize = require('./config/sequelize.js');
 const app = express();
 
 // seguridad
-app.use(helmet());
+// app.use(helmet());
 
 // app.use(cors());
 app.use(cors({
