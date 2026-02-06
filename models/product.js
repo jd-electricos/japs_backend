@@ -67,13 +67,18 @@ const Product = sequelize.define(
       allowNull: false,
     },
     brand: {
-      type: DataTypes.TEXT, 
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+
+    pdf: {
+      type: DataTypes.TEXT,
       allowNull: true,
     },
   },
   {
     tableName: "products",
     timestamps: false, // No se requieren campos `createdAt` y `updatedAt`
-  }
+  },
 );
 module.exports = Product;
