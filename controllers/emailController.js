@@ -20,6 +20,26 @@ const sendEmail = async (req, res) => {
     res.status(500).json({ message: "Error al enviar el correo" });
   }
 };
+const sendEmailPays = async (req, res) => {
+  //funcion que envia el email
+  const { name, company, phone, email, affair, message } = req.body;
+  const mailOptions = {
+    from: process.env.FROM,
+    to: process.env.TOPAY,
+    subject: `Nuevo mensaje de ${affair}`,
+    text: message,
+    html: `<p><strong>Nombre:</strong> ${name}</p><p><strong>Empresa:</strong> ${company}</p><p><strong>Teléfono:</strong> ${phone}</p><p><strong>Email:</strong> ${email}</p><p><strong>Asunto:</strong> ${affair}</p><p><strong>Mensaje:</strong><br>${message}</p>`,
+  };
+  try {
+    // Guarda el mensaje en la base de datos
+    await Email.create({ name, company, phone, email, affair, message });
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: "Correo enviado exitosamente" });
+  } catch (error) {
+    console.error("Error al enviar el correo:", error);
+    res.status(500).json({ message: "Error al enviar el correo" });
+  }
+};
 /**
  * Obtiene todos los producto
  *
@@ -36,4 +56,4 @@ const getAllEmails = async (req, res) => {
     res.status(500).json({ error: "Error al obtener productos" });
   }
 };
-module.exports = { sendEmail, getAllEmails };
+module.exports = { sendEmail, getAllEmails, sendEmailPays };
