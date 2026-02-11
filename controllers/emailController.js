@@ -75,7 +75,7 @@ const notifyClientPaymentStatus = async ({
   email,
   status,
   reference,
-  amount,
+  price,
 }) => {
   const isApproved = status === "APPROVED";
 
@@ -89,7 +89,7 @@ const notifyClientPaymentStatus = async ({
         isApproved
           ? `<p>Tu pago fue aprobado correctamente.</p>
              <p><strong>Referencia:</strong> ${reference}</p>
-             <p><strong>Valor:</strong> $${amount}</p>`
+             <p><strong>Valor:</strong> $${price}</p>`
           : `<p>Tu pago no fue aprobado.</p>
              <p>Puedes intentarlo nuevamente.</p>`
       }
