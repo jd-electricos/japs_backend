@@ -1,4 +1,5 @@
 const transporter = require("../config/nodemailerConfig");
+const transporterOutlook = require("../config/outlookNodeMailerConfig");
 const Email = require("../models/email");
 const sendEmail = async (req, res) => {
   //funcion que envia el email
@@ -22,7 +23,7 @@ const sendEmail = async (req, res) => {
 };
 const sendEmailPays = async (req, res) => {
   //funcion que envia el email
-  const { name, company, phone, email, affair, message } = req.body;
+  const { name, company, phone, email, affair, message, status } = req.body;
   const mailOptions = {
     from: process.env.FROM,
     to: process.env.TOPAY,
@@ -34,6 +35,17 @@ const sendEmailPays = async (req, res) => {
     // Guarda el mensaje en la base de datos
     await Email.create({ name, company, phone, email, affair, message });
     await transporter.sendMail(mailOptions);
+
+    // 👇 Notificación al cliente
+
+    await notifyClientPaymentStatus({
+      name,
+      email,
+      status,
+      reference: req.body.reference,
+      amount: req.body.amount,
+    });
+
     res.status(200).json({ message: "Correo enviado exitosamente" });
   } catch (error) {
     console.error("Error al enviar el correo:", error);
@@ -56,4 +68,36 @@ const getAllEmails = async (req, res) => {
     res.status(500).json({ error: "Error al obtener productos" });
   }
 };
+
+// funcion para notificar al cliente
+const notifyClientPaymentStatus = async ({
+  name,
+  email,
+  status,
+  reference,
+  amount,
+}) => {
+  const isApproved = status === "APPROVED";
+
+  const mailOptions = {
+    from: process.env.OUTLOOK_USER,
+    to: email,
+    subject: isApproved ? "Pago aprobado ✅" : "Pago no aprobado ❌",
+    html: `
+      <p>Hola ${name},</p>
+      ${
+        isApproved
+          ? `<p>Tu pago fue aprobado correctamente.</p>
+             <p><strong>Referencia:</strong> ${reference}</p>
+             <p><strong>Valor:</strong> $${amount}</p>`
+          : `<p>Tu pago no fue aprobado.</p>
+             <p>Puedes intentarlo nuevamente.</p>`
+      }
+      <p>Gracias por tu compra.</p>
+    `,
+  };
+
+  await transporterOutlook.sendMail(mailOptions);
+};
+
 module.exports = { sendEmail, getAllEmails, sendEmailPays };
