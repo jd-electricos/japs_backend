@@ -23,7 +23,7 @@ const sendEmail = async (req, res) => {
 };
 const sendEmailPays = async (req, res) => {
   //funcion que envia el email
-  const { name, company, phone, email, affair, message, status } = req.body;
+  const { name, company, phone, email, affair, message, status, price, reference } = req.body;
   const mailOptions = {
     from: process.env.FROM,
     to: process.env.TOPAY,
@@ -42,8 +42,8 @@ const sendEmailPays = async (req, res) => {
       name,
       email,
       status,
-      reference: req.body.reference,
-      amount: req.body.amount,
+      price,
+      reference,
     });
 
     res.status(200).json({ message: "Correo enviado exitosamente" });
