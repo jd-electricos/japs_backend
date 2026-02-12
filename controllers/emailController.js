@@ -22,7 +22,7 @@ const sendEmail = async (req, res) => {
   }
 };
 const sendEmailPays = async (req, res) => {
-  console.log('entra a jennifer')
+  console.log("entra a jennifer");
   //funcion que envia el email
   const {
     name,
@@ -40,7 +40,7 @@ const sendEmailPays = async (req, res) => {
     to: process.env.TOPAY,
     subject: `Nuevo mensaje de ${affair}`,
     text: message,
-    html: `<p><strong>Nombre:</strong> ${name}</p><p><strong>Empresa:</strong> ${company}</p><p><strong>Teléfono:</strong> ${phone}</p><p><strong>Email:</strong> ${email}</p><p><strong>Asunto:</strong> ${affair}</p><p><strong>Mensaje:</strong><br>${message}</p>`,
+    html: `<p><strong>Nombre:</strong> ${name}</p><p><strong>Empresa:</strong> ${name}</p><p><strong>Teléfono:</strong> ${phone}</p><p><strong>Email:</strong> ${email}</p><p><strong>Asunto:</strong> ${affair}</p><p><strong>Mensaje:</strong><br>${message}</p>`,
   };
   try {
     // Guarda el mensaje en la base de datos
@@ -88,7 +88,7 @@ const notifyClientPaymentStatus = async ({
   reference,
   price,
 }) => {
-  console.log('entra a clientes')
+  console.log("entra a clientes");
   const isApproved = status === "APPROVED";
 
   const bannerUrl = isApproved
