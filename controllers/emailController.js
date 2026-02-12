@@ -22,6 +22,7 @@ const sendEmail = async (req, res) => {
   }
 };
 const sendEmailPays = async (req, res) => {
+  console.log('entra a jennifer')
   //funcion que envia el email
   const {
     name,
@@ -87,6 +88,7 @@ const notifyClientPaymentStatus = async ({
   reference,
   price,
 }) => {
+  console.log('entra a clientes')
   const isApproved = status === "APPROVED";
 
   const bannerUrl = isApproved
