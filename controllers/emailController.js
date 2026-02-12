@@ -23,7 +23,17 @@ const sendEmail = async (req, res) => {
 };
 const sendEmailPays = async (req, res) => {
   //funcion que envia el email
-  const { name, company, phone, email, affair, message, status, price, reference } = req.body;
+  const {
+    name,
+    company,
+    phone,
+    email,
+    affair,
+    message,
+    status,
+    price,
+    reference,
+  } = req.body;
   const mailOptions = {
     from: process.env.FROM,
     to: process.env.TOPAY,
@@ -79,21 +89,74 @@ const notifyClientPaymentStatus = async ({
 }) => {
   const isApproved = status === "APPROVED";
 
+  const bannerUrl = isApproved
+    ? "https://ik.imagekit.io/ftuu3w4hn/aprobado.webp"
+    : "https://ik.imagekit.io/ftuu3w4hn/rechazado.webp";
+
   const mailOptions = {
-    from: process.env.OUTLOOK_USER,
+    from: `"JD Eléctricos" <${process.env.OUTLOOK_USER}>`,
     to: email,
     subject: isApproved ? "Pago aprobado ✅" : "Pago no aprobado ❌",
     html: `
-      <p>Hola ${name},</p>
-      ${
-        isApproved
-          ? `<p>Tu pago fue aprobado correctamente.</p>
-             <p><strong>Referencia:</strong> ${reference}</p>
-             <p><strong>Valor:</strong> $${price}</p>`
-          : `<p>Tu pago no fue aprobado.</p>
-             <p>Puedes intentarlo nuevamente.</p>`
-      }
-      <p>Gracias por tu compra.</p>
+      <div style="font-family: Arial, sans-serif; color:#333; line-height:1.5;">
+        
+        <!-- Banner -->
+        <div style="text-align:center; margin-bottom:20px;">
+          <img src="${bannerUrl}" 
+               alt="Estado del pago" 
+               style="max-width:100%; height:auto;" />
+        </div>
+
+        <p>Hola ${name},</p>
+
+        ${
+          isApproved
+            ? `
+              <p>Tu pago fue aprobado correctamente.</p>
+              <p><strong>Referencia:</strong> ${reference}</p>
+              <p><strong>Valor:</strong> $${price}</p>
+            `
+            : `
+              <p>Tu pago no fue aprobado.</p>
+              <p>Puedes intentarlo nuevamente.</p>
+            `
+        }
+
+        <p>Gracias por tu compra.</p>
+
+        <!-- Firma -->
+        <div style="
+          display:flex;
+          align-items:center;
+          margin-top:30px;
+          padding-top:15px;
+          border-top:2px solid #eee;
+        ">
+          <img
+            src="https://ik.imagekit.io/ftuu3w4hn/cards-home/firma-imagen.png"
+            width="180"
+            alt="Logo JD Eléctricos"
+            style="margin-right:20px;"
+          />
+          <div style="font-size:14px;">
+            <b>Notificaciones JD Eléctricos</b><br />
+            <i>Área Sistemas</i><br />
+            <b>J.D Eléctricos e Industria.</b><br /><br />
+            📞 <b>PBX:</b> (1) 341 10 60<br /><br />
+            🏢 <b>Dirección:</b><br />
+            Carrera 12 # 15-95, Ofc 506<br />
+            Bogotá - Colombia<br /><br />
+            🌐 <b>Sitios web:</b><br />
+            <a href="http://www.jdelectricos.com.co/" style="color:#0563c1; text-decoration:none;">
+              www.jdelectricos.com.co
+            </a><br />
+            <a href="http://www.japs.com.co/" style="color:#0563c1; text-decoration:none;">
+              www.japs.com.co
+            </a>
+          </div>
+        </div>
+
+      </div>
     `,
   };
 
