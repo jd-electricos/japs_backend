@@ -22,7 +22,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://apijd.jdelectricos.com.co/",
+      "https://apijd.jdelectricos.com.co",
       "https://japs.com.co",
       "https://www.japs.com.co",
       "https://jdelectricos.com.co",
