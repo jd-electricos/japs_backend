@@ -33,6 +33,7 @@ const sendEmailPays = async (req, res) => {
     status,
     price,
     reference,
+    billing
   } = req.body;
   const mailOptions = {
     from: process.env.FROM,
@@ -54,6 +55,7 @@ const sendEmailPays = async (req, res) => {
       status,
       price,
       reference,
+      billing
     });
 
     res.status(200).json({ message: "Correo enviado exitosamente" });
@@ -86,6 +88,7 @@ const notifyClientPaymentStatus = async ({
   status,
   reference,
   price,
+  billing
 }) => {
   const isApproved = status === "APPROVED";
 
@@ -113,6 +116,7 @@ const notifyClientPaymentStatus = async ({
           isApproved
             ? `
               <p>Tu pago fue aprobado correctamente.</p>
+              <p><strong>Concepto:</strong> ${billing}</p>
               <p><strong>Referencia:</strong> ${reference}</p>
               <p><strong>Valor:</strong> $${price}</p>
             `
