@@ -28,7 +28,7 @@ app.use(
       "https://jdelectricos.com.co",
       "https://www.jdelectricos.com.co",
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST"],
     credentials: true,
   }),
 );
