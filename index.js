@@ -31,7 +31,6 @@ app.use(
     credentials: true,
   }),
 );
-
 /* 📦 JSON */
 app.use(express.json());
 
