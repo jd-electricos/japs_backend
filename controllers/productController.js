@@ -257,7 +257,6 @@ const getProductsBySubcategory = async (req, res) => {
 };
 /**
  * Busca un producto por nombre.
- *
  * @param {Object} req - La solicitud del cliente, debe contener el nombre en los parámetros.
  * @param {Object} res - La respuesta al cliente.
  */
