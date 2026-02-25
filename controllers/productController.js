@@ -224,7 +224,6 @@ const getProductsByCategory = async (req, res) => {
 };
 /**
  * Obtiene los productos por subcategoría.
- *
  * @param {Object} req - La solicitud del cliente, debe contener la subcategoría en los parámetros.
  * @param {Object} res - La respuesta al cliente.
  */
