@@ -21,6 +21,7 @@ const app = express();
 app.use(
   cors({
     origin: [
+      // "http://localhost:3000",
       "https://apijd.jdelectricos.com.co",
       "https://japs.com.co",
       "https://www.japs.com.co",

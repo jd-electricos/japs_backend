@@ -33,7 +33,7 @@ const sendEmailPays = async (req, res) => {
     status,
     price,
     reference,
-    billing
+    billing,
   } = req.body;
   const mailOptions = {
     from: process.env.FROM,
@@ -55,7 +55,7 @@ const sendEmailPays = async (req, res) => {
       status,
       price,
       reference,
-      billing
+      billing,
     });
 
     res.status(200).json({ message: "Correo enviado exitosamente" });
@@ -88,7 +88,7 @@ const notifyClientPaymentStatus = async ({
   status,
   reference,
   price,
-  billing
+  billing,
 }) => {
   const isApproved = status === "APPROVED";
 
@@ -167,4 +167,61 @@ const notifyClientPaymentStatus = async ({
   await transporterOutlook.sendMail(mailOptions);
 };
 
-module.exports = { sendEmail, getAllEmails, sendEmailPays };
+const sendReturnEmail = async (req, res) => {
+  try {
+    const { asesor, factura, empresa, asunto } = req.body;
+    const file = req.file;
+
+    const asesores = {
+      "juan moreno": "juanmoreno@jdelectricos.com.co",
+      "nicolas bernal": "nicolasbernal@jdelectricos.com.co",
+      "dianie novoa": "comercial3@jdelectricos.com.co",
+      "carolina cerquera": "comercial4@jdelectricos.com.co",
+      "esteban ramirez": "comercial5@jdelectricos.com.co",
+      "william camelo": "williamcamelo@jdelectricos.com.co",
+    };
+
+    // obtener correo del asesor
+    const asesorEmail = asesores[asesor?.toLowerCase()] || "";
+
+    // correos destino
+    const toEmails = ["ventas@japs.com.co", asesorEmail]
+      .filter(Boolean)
+      .join(",");
+
+    const mailOptions = {
+      from: process.env.FROM,
+      to: toEmails,
+      subject: `Nueva solicitud de devolución - ${empresa} - ${factura}`,
+      html: `
+        <h2>Nueva solicitud de devolución</h2>
+
+        <p><strong>Asesor:</strong> ${asesor}</p>
+        <p><strong>Número de factura:</strong> ${factura}</p>
+        <p><strong>Empresa:</strong> ${empresa}</p>
+        <p><strong>Asunto:</strong> ${asunto}</p>
+      `,
+      attachments: file
+        ? [
+            {
+              filename: file.originalname,
+              content: file.buffer,
+            },
+          ]
+        : [],
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return res.status(200).json({
+      message: "Solicitud enviada correctamente",
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      message: "Error al enviar la solicitud",
+    });
+  }
+};
+module.exports = { sendEmail, getAllEmails, sendEmailPays, sendReturnEmail };
