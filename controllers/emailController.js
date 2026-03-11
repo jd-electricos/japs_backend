@@ -185,7 +185,7 @@ const sendReturnEmail = async (req, res) => {
     const asesorEmail = asesores[asesor?.toLowerCase()] || "";
 
     // correos destino
-    const toEmails = ["ventas@japs.com.co", asesorEmail]
+    const toEmails = ["ventas@jdelectricos.com.co", asesorEmail]
       .filter(Boolean)
       .join(",");
 
